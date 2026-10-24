@@ -13,30 +13,26 @@
       --card-border: #30363d;
       --accent-apple: #0a84ff;
       --accent-psn: #00439c;
-      --accent-glow: #2f81f7;
       --text: #f0f6fc;
       --text-muted: #8b949e;
       --success: #238636;
-      --danger: #da3633;
     }
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
-      user-select: none;
     }
     body {
       background-color: var(--bg);
       color: var(--text);
       min-height: 100vh;
       padding: 16px;
-      padding-bottom: 90px;
     }
     header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .badge-top {
       display: inline-block;
@@ -49,48 +45,36 @@
       font-weight: 600;
       margin-bottom: 8px;
     }
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-    p.subtitle {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
+    h1 { font-size: 1.35rem; font-weight: 800; }
+    p.subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    
     .tabs {
       display: flex;
       gap: 10px;
       background: #11161d;
       padding: 4px;
-      border-radius: 14px;
+      border-radius: 12px;
       border: 1px solid #21262d;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .tab-btn {
       flex: 1;
-      padding: 10px 14px;
+      padding: 10px;
       background: transparent;
       border: none;
       color: var(--text-muted);
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
+      border-radius: 9px;
+      font-size: 0.85rem;
+      font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
     }
     .tab-btn.active {
       background: #1f242c;
       color: var(--text);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
     .tab-btn.active.apple { border-bottom: 2px solid var(--accent-apple); }
     .tab-btn.active.psn { border-bottom: 2px solid #29b6f6; }
+    
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -99,278 +83,221 @@
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
-      position: relative;
-      overflow: hidden;
       cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s;
-    }
-    .card:active {
-      transform: scale(0.97);
     }
     .card-icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+      width: 44px;
+      height: 44px;
+      margin-bottom: 8px;
     }
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .card-region {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-    .card-price {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #3fb950;
-      margin-bottom: 12px;
-    }
+    .card-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+    .card-region { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 8px; }
+    .card-price { font-size: 0.9rem; font-weight: 800; color: #3fb950; margin-bottom: 10px; }
     .buy-btn {
       width: 100%;
       padding: 8px;
-      border-radius: 10px;
+      border-radius: 8px;
       background: #21262d;
-      color: var(--text);
-      border: 1px solid #30363d;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .card:hover .buy-btn {
-      background: var(--accent-apple);
-      border-color: var(--accent-apple);
       color: #fff;
+      border: 1px solid #30363d;
+      font-size: 0.8rem;
+      cursor: pointer;
     }
 
     /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: flex-end;
       justify-content: center;
-      z-index: 1000;
+      z-index: 999;
     }
-    .modal-overlay.open {
-      display: flex;
-    }
+    .modal-overlay.open { display: flex; }
     .modal-content {
       background: #161b22;
       width: 100%;
       max-width: 500px;
-      border-radius: 24px 24px 0 0;
+      border-radius: 20px 20px 0 0;
       border-top: 1px solid #30363d;
-      padding: 22px 20px 30px;
+      padding: 20px;
       max-height: 90vh;
       overflow-y: auto;
-      animation: slideUp 0.25s ease-out;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
     }
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-    }
-    .modal-title {
-      font-size: 1.1rem;
-      font-weight: 800;
+      margin-bottom: 14px;
     }
     .close-btn {
       background: #21262d;
       border: none;
-      color: var(--text-muted);
-      width: 32px;
-      height: 32px;
+      color: #fff;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .payment-box {
       background: #0d1117;
       border: 1px dashed #30363d;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 16px;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 0.85rem;
     }
     .pay-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 0.88rem;
-    }
-    .pay-row:last-child {
-      margin-bottom: 0;
+      margin-bottom: 8px;
     }
     .card-number-box {
       background: #161b22;
       border: 1px solid #30363d;
-      padding: 10px 12px;
-      border-radius: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: monospace;
-      font-size: 1.05rem;
-      letter-spacing: 1px;
       margin-top: 6px;
       direction: ltr;
+      font-family: monospace;
+      font-size: 1rem;
     }
     .copy-pill {
       background: #238636;
       color: #fff;
       border: none;
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
       font-size: 0.75rem;
-      font-family: 'Vazirmatn', sans-serif;
       cursor: pointer;
-    }
-    .input-group {
-      margin-bottom: 14px;
-    }
-    .input-label {
-      display: block;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
     }
     .text-input {
       width: 100%;
       background: #0d1117;
       border: 1px solid #30363d;
-      border-radius: 10px;
-      padding: 10px 12px;
+      border-radius: 8px;
+      padding: 10px;
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
       outline: none;
     }
-    .text-input:focus {
-      border-color: var(--accent-apple);
-    }
-    .submit-order-btn {
+    .submit-btn {
       width: 100%;
       background: #238636;
       color: #fff;
       border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 1rem;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(35, 134, 54, 0.4);
-    }
-    .submit-order-btn:active {
-      transform: scale(0.98);
     }
 
-    /* Code View Mode */
-    .gift-code-screen {
+    /* صفحه وضعیت موفقیت */
+    .success-box {
       display: none;
       text-align: center;
-      padding: 30px 10px;
+      padding: 10px 0;
     }
-    .code-display-box {
-      background: #0d1117;
-      border: 2px dashed #238636;
-      border-radius: 16px;
-      padding: 20px;
-      margin: 20px 0;
-    }
-    .code-val {
+    .tracking-tag {
+      display: inline-block;
+      background: #21262d;
+      padding: 6px 14px;
+      border-radius: 8px;
       font-family: monospace;
-      font-size: 1.4rem;
-      letter-spacing: 2px;
       color: #58a6ff;
-      font-weight: bold;
-      user-select: all;
+      font-size: 1.1rem;
+      margin: 10px 0 16px;
+      border: 1px solid #30363d;
+    }
+    .tg-send-btn {
+      display: block;
+      width: 100%;
+      background: #0a84ff;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <!-- صفحه اصلی فروشگاه -->
+  <!-- صفحه فروشگاه -->
   <div id="shop-view">
     <header>
-      <div class="badge-top">تحویل فوری و مطمئن</div>
+      <div class="badge-top">تحویل ۲ الی ۳ دقیقه‌ای</div>
       <h1>سام گیفت استور</h1>
-      <p class="subtitle">خرید مستقیم گیفت کارت اپل و پلی‌استیشن</p>
+      <p class="subtitle">انتخاب گیفت‌کارت و ثبت سفارش</p>
     </header>
 
     <div class="tabs">
-      <button class="tab-btn active apple" onclick="switchCategory('apple')">
-        <span>🍏 اپل (آیتونز)</span>
-      </button>
-      <button class="tab-btn psn" onclick="switchCategory('psn')">
-        <span>🎮 پلی‌استیشن</span>
-      </button>
+      <button class="tab-btn active apple" onclick="switchCategory('apple')">🍏 اپل (آیتونز)</button>
+      <button class="tab-btn psn" onclick="switchCategory('psn')">🎮 پلی‌استیشن</button>
     </div>
 
     <div class="grid" id="products-grid"></div>
   </div>
 
-  <!-- صفحه نمایش کد گیفت کارت به کاربر -->
-  <div id="code-view" class="gift-code-screen">
-    <div style="font-size: 48px; margin-bottom: 10px;">🎁</div>
-    <h2 style="font-size: 1.3rem; margin-bottom: 6px;">گیفت‌کارت شما آماده است!</h2>
-    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">کد زیر را کپی کرده و در استور خود وارد نمایید.</p>
-    
-    <div class="code-display-box">
-      <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;" id="code-product-name">گیفت کارت</div>
-      <div class="code-val" id="code-text">ABCD-1234-EFGH-5678</div>
-    </div>
-
-    <button class="submit-order-btn" onclick="copyGiftCode()">📋 کپی کردن کد گیفت‌کارت</button>
-  </div>
-
-  <!-- مودال پرداخت -->
+  <!-- مودال خرید و پرداخت -->
   <div class="modal-overlay" id="payment-modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="m-product-title">خرید گیفت کارت</h3>
-        <button class="close-btn" onclick="closeModal()">&times;</button>
+      
+      <!-- فرم پرداخت -->
+      <div id="modal-form-view">
+        <div class="modal-header">
+          <h3 id="m-product-title" style="font-size: 1rem;">خرید گیفت کارت</h3>
+          <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+
+        <div class="payment-box">
+          <div class="pay-row">
+            <span style="color: var(--text-muted);">مبلغ:</span>
+            <span style="color: #3fb950; font-weight: bold;" id="m-product-price">۰</span>
+          </div>
+          <div class="pay-row">
+            <span style="color: var(--text-muted);">شماره کارت بلو‌بانک:</span>
+            <span style="color: #8b949e;">علی سبزکار کاشانی</span>
+          </div>
+          <div class="card-number-box">
+            <button class="copy-pill" onclick="copyCard()">کپی</button>
+            <span>6219-8619-0997-1334</span>
+          </div>
+        </div>
+
+        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 6px;">
+          شماره پیگیری یا ۴ رقم آخر کارت واریزکننده:
+        </label>
+        <input type="text" id="card-digits" class="text-input" placeholder="مثال: ۵۸۲۴ یا شماره تراکنش" />
+
+        <button class="submit-btn" onclick="submitOrder()">✅ ثبت و ارسال سفارش</button>
       </div>
 
-      <div class="payment-box">
-        <div class="pay-row">
-          <span style="color: var(--text-muted);">مبلغ قابل پرداخت:</span>
-          <span style="font-weight: 800; color: #3fb950;" id="m-product-price">۰ تومان</span>
-        </div>
-        <div class="pay-row">
-          <span style="color: var(--text-muted);">شماره کارت بلو‌بانک:</span>
-          <span style="font-size: 0.8rem; color: #8b949e;">علی سبزکار کاشانی</span>
-        </div>
-        <div class="card-number-box">
-          <button class="copy-pill" onclick="copyCard()">کپی</button>
-          <span id="bank-card">6219-8619-0997-1334</span>
-        </div>
+      <!-- وضعیت پس از ثبت -->
+      <div id="modal-success-view" class="success-box">
+        <div style="font-size: 42px;">⏳</div>
+        <h3 style="margin-top: 6px; font-size: 1.1rem;">سفارش شما در انتظار تایید</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">کد پیگیری سفارش شما:</p>
+        <div class="tracking-tag" id="display-tracking">GC-0000</div>
+        
+        <p style="font-size: 0.8rem; line-height: 1.6; color: #c9d1d9; margin-bottom: 12px;">
+          کارت شما تا ۲ الی ۳ دقیقه دیگر تایید شده و کد گیفت‌کارت در چت ربات برایتان ارسال خواهد شد.
+        </p>
+
+        <a id="btn-forward-tg" class="tg-send-btn" href="#">📩 ارسال فاکتور به ربات</a>
       </div>
 
-      <div class="input-group">
-        <label class="input-label">شماره پیگیری یا ۴ رقم آخر کارت واریزکننده:</label>
-        <input type="text" id="card-digits" class="text-input" placeholder="مثلاً: ۵۸۲۴ یا شماره پیگیری..." />
-      </div>
-
-      <button class="submit-order-btn" onclick="confirmAndSend()">✅ ثبت و ارسال سفارش</button>
     </div>
   </div>
 
@@ -383,62 +310,39 @@
 
     const products = {
       apple: [
-        { id: 'a2', name: 'گیفت کارت ۲ دلاری اپل', price: '۱۶۵,۰۰۰ تومان', rawPrice: 165000, region: 'آمریکا (US)' },
-        { id: 'a3', name: 'گیفت کارت ۳ دلاری اپل', price: '۲۴۵,۰۰۰ تومان', rawPrice: 245000, region: 'آمریکا (US)' },
-        { id: 'a5', name: 'گیفت کارت ۵ دلاری اپل', price: '۳۹۵,۰۰۰ تومان', rawPrice: 395000, region: 'آمریکا (US)' },
-        { id: 'a10', name: 'گیفت کارت ۱۰ دلاری اپل', price: '۷۸۰,۰۰۰ تومان', rawPrice: 780000, region: 'آمریکا (US)' }
+        { id: 'a2', name: 'گیفت کارت ۲ دلاری اپل', price: '۱۶۵,۰۰۰ تومان' },
+        { id: 'a3', name: 'گیفت کارت ۳ دلاری اپل', price: '۲۴۵,۰۰۰ تومان' },
+        { id: 'a5', name: 'گیفت کارت ۵ دلاری اپل', price: '۳۹۵,۰۰۰ تومان' },
+        { id: 'a10', name: 'گیفت کارت ۱۰ دلاری اپل', price: '۷۸۰,۰۰۰ تومان' }
       ],
       psn: [
-        { id: 'p10', name: 'گیفت کارت ۱۰ دلاری PSN', price: '۷۹۰,۰۰۰ تومان', rawPrice: 790000, region: 'آمریکا (US)' },
-        { id: 'p25', name: 'گیفت کارت ۲۵ دلاری PSN', price: '۱,۹۵۰,۰۰۰ تومان', rawPrice: 1950000, region: 'آمریکا (US)' },
-        { id: 'p50', name: 'گیفت کارت ۵۰ دلاری PSN', price: '۳,۸۹۰,۰۰۰ تومان', rawPrice: 3890000, region: 'آمریکا (US)' }
+        { id: 'p10', name: 'گیفت کارت ۱۰ دلاری PSN', price: '۷۹۰,۰۰۰ تومان' },
+        { id: 'p25', name: 'گیفت کارت ۲۵ دلاری PSN', price: '۱,۹۵۰,۰۰۰ تومان' },
+        { id: 'p50', name: 'گیفت کارت ۵۰ دلاری PSN', price: '۳,۸۹۰,۰۰۰ تومان' }
       ]
     };
 
-    let currentCategory = 'apple';
     let selectedProduct = null;
 
-    // بررسی اینکه آیا برای دیدن کد باز شده است یا خیر
-    const urlParams = new URLSearchParams(window.location.search);
-    const deliveredCode = urlParams.get('code');
-    const deliveredItem = urlParams.get('item');
-
-    if (deliveredCode) {
-      document.getElementById('shop-view').style.display = 'none';
-      document.getElementById('code-view').style.display = 'block';
-      document.getElementById('code-text').innerText = deliveredCode;
-      if (deliveredItem) {
-        document.getElementById('code-product-name').innerText = decodeURIComponent(deliveredItem);
-      }
-    }
-
-    function renderProducts(category) {
+    function renderProducts(cat) {
       const grid = document.getElementById('products-grid');
       grid.innerHTML = '';
-      
-      products[category].forEach(item => {
+      products[cat].forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => openModal(item);
-        
-        const isApple = category === 'apple';
-        const iconSvg = isApple 
-          ? `<svg class="card-icon" viewBox="0 0 170 170"><path fill="#f0f6fc" d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.6-7.85-11.71-14.42-6.24-10.02-11.05-21.78-14.42-35.28-3.37-13.51-5.06-25.75-5.06-36.73 0-16.7 4.31-30.06 12.93-40.09 8.62-10.02 19.34-15.15 32.18-15.38 5.12 0 10.66 1.34 16.63 4.02 5.97 2.68 9.94 4.07 11.9 4.16 1.58-.1 5.67-1.48 12.27-4.16 6.6-2.68 12.35-3.9 17.25-3.65 14.07.67 25.1 5.92 33.1 15.75-12.24 7.42-18.23 17.65-17.96 30.7.35 10.39 4.41 18.96 12.18 25.72 7.77 6.76 17.15 10.69 28.14 11.79-2.58 8.16-6.17 17.07-10.77 26.74zM119.22 31.84c0-7.8 2.82-15.22 8.46-22.25 5.64-7.03 12.63-11.59 20.97-13.68-.31 1.76-.75 3.65-1.32 5.66-.57 2.01-1.4 3.99-2.49 5.94-1.89 3.51-4.49 6.83-7.79 9.96-3.3 3.13-6.84 5.3-10.63 6.52-2.12.68-4.52 1.35-7.2 2.01v-4.16z"/></svg>`
-          : `<svg class="card-icon" viewBox="0 0 24 24"><path fill="#29b6f6" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/></svg>`;
-
         card.innerHTML = `
-          ${iconSvg}
+          <div style="font-size: 32px; margin-bottom: 6px;">${cat === 'apple' ? '🍏' : '🎮'}</div>
           <div class="card-title">${item.name}</div>
-          <div class="card-region">${item.region}</div>
+          <div class="card-region">آمریکا (US)</div>
           <div class="card-price">${item.price}</div>
-          <button class="buy-btn">خرید سریع</button>
+          <button class="buy-btn">خرید</button>
         `;
         grid.appendChild(card);
       });
     }
 
     function switchCategory(cat) {
-      currentCategory = cat;
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelector(`.tab-btn.${cat}`).classList.add('active');
       renderProducts(cat);
@@ -448,8 +352,10 @@
       selectedProduct = item;
       document.getElementById('m-product-title').innerText = item.name;
       document.getElementById('m-product-price').innerText = item.price;
+      document.getElementById('modal-form-view').style.display = 'block';
+      document.getElementById('modal-success-view').style.display = 'none';
+      document.getElementById('card-digits').value = '';
       document.getElementById('payment-modal').classList.add('open');
-      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
     }
 
     function closeModal() {
@@ -457,49 +363,40 @@
     }
 
     function copyCard() {
-      const cardNum = '6219861909971334';
-      navigator.clipboard.writeText(cardNum).then(() => {
-        alert('شماره کارت کپی شد: ' + cardNum);
+      navigator.clipboard.writeText('6219861909971334').then(() => {
+        alert('شماره کارت کپی شد: 6219-8619-0997-1334');
       });
     }
 
-    function copyGiftCode() {
-      const code = document.getElementById('code-text').innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        alert('کد گیفت‌کارت کپی شد! ✅');
-      });
-    }
-
-    function confirmAndSend() {
+    function submitOrder() {
       const digits = document.getElementById('card-digits').value.trim();
       if (!digits) {
-        alert('لطفاً شماره پیگیری یا ۴ رقم کارت واریزکننده را وارد کنید.');
+        alert('لطفاً شماره پیگیری یا ۴ رقم آخر کارت را وارد نمایید.');
         return;
       }
 
-      const trackingCode = 'GC-' + Math.floor(1000 + Math.random() * 9000);
-      
-      // داده‌ای که به ربات تلگرام فرستاده می‌شود
-      const orderData = {
-        action: 'new_order',
-        item: selectedProduct.name,
-        price: selectedProduct.price,
-        tracking: trackingCode,
-        payerCard: digits,
-        date: new Date().toLocaleTimeString('fa-IR')
-      };
+      const tracking = 'GC-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('display-tracking').innerText = tracking;
 
-      if (tg && tg.sendData) {
-        // این دستور اطلاعات را به چت ربات می‌فرستد و مینی‌اپ را می‌بندد
-        tg.sendData(JSON.stringify(orderData));
-      } else {
-        alert('سفارش شما با کد پیگیری ' + trackingCode + ' ثبت شد.');
-        closeModal();
-      }
+      // ساخت متن ارسال به ربات
+      const text = encodeURIComponent(
+        `📦 سفارش گیفت کارت جدید:\n` +
+        `محصول: ${selectedProduct.name}\n` +
+        `مبلغ: ${selectedProduct.price}\n` +
+        `کارت/پیگیری: ${digits}\n` +
+        `کد رهگیری: ${tracking}`
+      );
+
+      // لینک مستقیم به ربات شما با متن فاکتور
+      const botUrl = `https://t.me/samgiftcardstorebot?text=${text}`;
+      document.getElementById('btn-forward-tg').setAttribute('href', botUrl);
+
+      // تغییر وضعیت به صفحه موفقیت
+      document.getElementById('modal-form-view').style.display = 'none';
+      document.getElementById('modal-success-view').style.display = 'block';
     }
 
-    // لود اولیه
+    // لود اولیه محصولات
     renderProducts('apple');
   </script>
 </body>
