@@ -570,6 +570,7 @@
 
         function renderGrid() {
             const grid = document.getElementById('productGrid');
+            if (!grid) return;
             grid.innerHTML = '';
             const list = products[activeCategory];
 
@@ -604,4 +605,81 @@
             document.getElementById('successStep').style.display = 'none';
             document.getElementById('receiptFileInput').value = '';
             document.getElementById('previewBox').style.display = 'none';
-            document.getElementById('uploadStatusText').innerText = 'بارگذاری عکس فیش واریزی (کلیک 
+            document.getElementById('uploadStatusText').innerText = 'بارگذاری عکس فیش واریزی (کلیک کنید)';
+            document.getElementById('referenceNumber').value = '';
+            uploadedReceiptData = null;
+
+            document.getElementById('paymentModal').classList.add('active');
+        }
+
+        function closeModal() {
+            triggerHaptic('light');
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        function copyCard() {
+            triggerHaptic('heavy');
+            const rawDigits = CARD_NUMBER.replace(/[^0-9]/g, '');
+            navigator.clipboard.writeText(rawDigits);
+            if (tg && tg.showAlert) {
+                tg.showAlert('شماره کارت با موفقیت کپی شد!');
+            } else {
+                alert('شماره کارت کپی شد: ' + rawDigits);
+            }
+        }
+
+        // پردازش انتخاب عکس فیش توسط کاربر
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            triggerHaptic('medium');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedReceiptData = e.target.result;
+                const previewImg = document.getElementById('receiptPreview');
+                previewImg.src = uploadedReceiptData;
+                document.getElementById('previewBox').style.display = 'block';
+                document.getElementById('uploadStatusText').innerText = '✓ تصویر فیش انتخاب شد (تغییر عکس)';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // تایید و ثبت فیش در مینی‌اپ
+        function processReceiptSubmission() {
+            const refNumber = document.getElementById('referenceNumber').value.trim();
+
+            if (!uploadedReceiptData && !refNumber) {
+                triggerHaptic('heavy');
+                if (tg && tg.showAlert) {
+                    tg.showAlert('لطفاً تصویر فیش واریز یا شماره پیگیری تراکنش را وارد کنید.');
+                } else {
+                    alert('لطفاً تصویر فیش یا شماره پیگیری را وارد کنید.');
+                }
+                return;
+            }
+
+            triggerHaptic('heavy');
+
+            // تولید کد پیگیری رندوم و رسمی
+            const randomCode = 'GC-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('orderTrackCode').innerText = `کد پیگیری: ${randomCode}`;
+
+            // رفتن به مرحله بعد درون خود مینی‌اپ
+            document.getElementById('paymentFormStep').style.display = 'none';
+            document.getElementById('successStep').style.display = 'block';
+        }
+
+        function finishAndClose() {
+            triggerHaptic('light');
+            closeModal();
+            if (tg && tg.close) {
+                tg.close();
+            }
+        }
+
+        // اجرای اولیه هنگام لود صفحه
+        renderGrid();
+    </script>
+</body>
+</html>
