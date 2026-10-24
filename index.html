@@ -2,25 +2,25 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>فروشگاه گیفت کارت</title>
-    <!-- تلگرام وب‌اپ -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- فونت زیبای وزیرمتن -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
-    
     <style>
         :root {
             --bg-color: var(--tg-theme-bg-color, #0f172a);
-            --text-color: var(--tg-theme-text-color, #ffffff);
             --card-bg: var(--tg-theme-secondary-bg-color, #1e293b);
-            --button-color: var(--tg-theme-button-color, #38bdf8);
-            --button-text: var(--tg-theme-button-text-color, #0f172a);
+            --text-color: var(--tg-theme-text-color, #f8fafc);
             --hint-color: var(--tg-theme-hint-color, #94a3b8);
+            --accent: #38bdf8;
+            --psn-color: #0070d1;
+            --apple-color: #a855f7;
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -28,235 +28,281 @@
             font-family: 'Vazirmatn', -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 18px 14px 90px 14px;
+            padding: 14px 12px 90px 12px;
             direction: rtl;
+            user-select: none;
         }
 
-        /* هدر جذاب */
-        .banner {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            border-radius: 18px;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
-            margin-bottom: 22px;
-            position: relative;
-            overflow: hidden;
+        /* هدر جمع‌وجور و سبک */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
         }
 
-        .banner h1 {
-            font-size: 20px;
-            margin: 0 0 6px 0;
+        .header h1 {
+            font-size: 15px;
             font-weight: 800;
         }
 
-        .banner p {
-            font-size: 13px;
-            margin: 0;
-            opacity: 0.9;
+        .header span {
+            font-size: 11px;
+            color: #34d399;
+            background: rgba(52, 211, 153, 0.12);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 700;
         }
 
-        .section-title {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 12px;
+        /* دکمه‌های دسته‌بندی استایل ایرانیکارت ولی بهینه */
+        .cat-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .cat-btn {
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 8px;
+            background: var(--card-bg);
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            color: var(--hint-color);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
 
-        /* چیدمان شبکه‌ای کارت‌ها */
+        .cat-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .cat-btn.active-apple {
+            border-color: var(--apple-color);
+            color: #fff;
+            background: rgba(168, 85, 247, 0.12);
+        }
+
+        .cat-btn.active-psn {
+            border-color: var(--psn-color);
+            color: #fff;
+            background: rgba(0, 112, 209, 0.15);
+        }
+
+        /* لیست کارت‌ها */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
 
-        /* کارت محصول */
         .card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px 12px;
+            border: 1.5px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 12px 10px;
             text-align: center;
-            border: 2px solid transparent;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease;
-            position: relative;
             cursor: pointer;
+            position: relative;
+            transition: transform 0.1s ease, border-color 0.15s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .card.active {
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.08);
+        .card:active {
             transform: scale(0.98);
+        }
+
+        .card.active {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.08);
         }
 
         .badge {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #10b981;
-            color: white;
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-weight: bold;
+            top: 6px;
+            right: 6px;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--accent);
         }
 
-        .card-img {
-            width: 48px;
-            height: 48px;
-            margin: 8px 0 12px 0;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            margin: 6px 0 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
         }
 
-        .card-title {
-            font-size: 14px;
+        .card-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: #ffffff;
+        }
+
+        .title {
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
-        .card-price {
+        .region {
+            font-size: 10px;
+            color: var(--hint-color);
+            margin-bottom: 8px;
+        }
+
+        .price {
             font-size: 13px;
             font-weight: 800;
             color: #38bdf8;
-            margin-bottom: 12px;
+            margin-top: auto;
         }
 
-        .select-btn {
+        .btn-check {
             width: 100%;
-            background: rgba(56, 189, 248, 0.15);
-            color: #38bdf8;
-            border: none;
-            border-radius: 10px;
-            padding: 8px;
-            font-size: 12px;
+            margin-top: 8px;
+            padding: 6px 0;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 700;
-            font-family: inherit;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-color);
+            pointer-events: none;
         }
 
-        .card.active .select-btn {
-            background: #38bdf8;
+        .card.active .btn-check {
+            background: var(--accent);
             color: #0f172a;
-        }
-
-        /* ویژگی‌ها */
-        .features {
-            margin-top: 24px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .feat-box {
-            background: var(--card-bg);
-            padding: 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            text-align: center;
-            color: var(--hint-color);
         }
     </style>
 </head>
 <body>
 
-    <!-- بنر بالای صفحه -->
-    <div class="banner">
-        <h1>فروشگاه رسمی گیفت کارت</h1>
-        <p>⚡ تحویل آنی کد به صورت خودکار</p>
+    <div class="header">
+        <h1>فروشگاه گیفت کارت</h1>
+        <span>تحویل آنی ⚡</span>
     </div>
 
-    <div class="section-title">
-        <span>انتخاب مبلغ گیفت کارت اپل</span>
+    <!-- دو دسته‌بندی اصلی: اپل و پلی‌استیشن -->
+    <div class="cat-bar">
+        <button id="tab-apple" class="cat-btn active-apple" onclick="showCategory('apple')">
+            <svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12-14.44-6.19-9.35-10.98-20.2-14.37-32.55-3.39-12.35-5.08-23.77-5.08-34.25 0-14.15 3.57-26.06 10.71-35.73 7.14-9.67 16.38-14.65 27.72-14.94 4.58 0 9.83 1.25 15.75 3.76 5.92 2.51 9.77 3.82 11.54 3.94 1.48-.12 5.48-1.5 12-4.14 6.52-2.64 12.02-3.82 16.5-3.53 12.69.75 22.84 5.3 30.46 13.66-10.98 6.64-16.32 15.77-16.02 27.41.3 9.4 3.87 17.29 10.71 23.68 6.84 6.39 15.09 10.05 24.75 10.98-2.31 7.27-5.32 14.88-9.03 22.84zM119.22 31.74c0-7.3 2.66-14.18 7.99-20.64 5.33-6.46 11.83-10.45 19.5-11.97.77 8.04-1.78 15.24-7.64 21.61-5.86 6.37-12.48 10.04-19.85 11z"/></svg>
+            اپل (iTunes)
+        </button>
+        <button id="tab-psn" class="cat-btn" onclick="showCategory('psn')">
+            <svg viewBox="0 0 512 512"><path d="M482.4 340.2c-15.5-5.7-32.3-3.2-46.5 4.9-20.4 11.6-40.8 23.2-61.2 34.8-5.3 3-10.7 4.1-15.8 2.6-6.1-1.8-10.2-6.5-10.2-13.8v-72.2c0-8.9 5.3-15.8 13.3-19.1 19.7-8.1 39.4-16.2 59.1-24.3 19.5-8 32.5-23.7 34.1-44.5 1.7-22-9.7-41.2-29.4-49.3-19.7-8.1-40.3-6.3-59.4 4.5-5.3 3-10.7 6.1-16 9.1v-60c0-10.3-6.8-17.7-16.9-18.4-10.3-.7-18.8 5.7-19.6 16.3-.3 4.1-.1 8.2-.1 12.3v179c-7.9 4.6-15.1 8.8-22.3 13-14.7 8.5-29.5 17.1-44.2 25.6-7.8 4.5-15.6 5.8-23.2 2.6-7.7-3.2-12.2-9.5-12-18 .3-11.4 8.7-19.4 19.4-23.8 20.3-8.3 40.6-16.6 60.9-24.9 3.5-1.4 6-3.8 6-7.8v-34.5c0-4.3-2.1-6.7-5.9-5.1-26.6 11-53.2 21.9-79.8 32.8-21.7 8.9-36.1 24.3-37.4 47.9-1.2 22.8 10.9 41.7 31.6 49.3 22.4 8.2 44.7 4.7 65.6-7.4 15.6-9 31.2-18.1 46.8-27.1 2.3-1.3 4.6-2.7 7.7-4.5v15.2c0 23.3 12.7 39.5 34.2 44.5 21.9 5.1 42.1-1.3 60.8-13.8 20.3-13.6 40.5-27.2 60.8-40.8 18.5-12.4 25.1-32.9 16.9-52.9z"/></svg>
+            پلی‌استیشن (PSN)
+        </button>
     </div>
 
-    <!-- لیست کارت‌ها -->
-    <div class="grid">
-        <!-- کارت ۵ دلاری -->
-        <div class="card" onclick="pickCard(this, '۵ دلاری', '۳۵۰,۰۰۰ تومان')">
-            <span class="badge">پرفروش</span>
-            <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-            <div class="card-title">گیفت کارت ۵$</div>
-            <div class="card-price">۳۵۰,۰۰۰ تومان</div>
-            <button class="select-btn">انتخاب</button>
-        </div>
-
-        <!-- کارت ۱۰ دلاری -->
-        <div class="card" onclick="pickCard(this, '۱۰ دلاری', '۶۹۰,۰۰۰ تومان')">
-            <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-            <div class="card-title">گیفت کارت ۱۰$</div>
-            <div class="card-price">۶۹۰,۰۰۰ تومان</div>
-            <button class="select-btn">انتخاب</button>
-        </div>
-
-        <!-- کارت ۱۵ دلاری -->
-        <div class="card" onclick="pickCard(this, '۱۵ دلاری', '۱,۰۴۰,۰۰۰ تومان')">
-            <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-            <div class="card-title">گیفت کارت ۱۵$</div>
-            <div class="card-price">۱,۰۴۰,۰۰۰ تومان</div>
-            <button class="select-btn">انتخاب</button>
-        </div>
-
-        <!-- کارت ۲۵ دلاری -->
-        <div class="card" onclick="pickCard(this, '۲۵ دلاری', '۱,۷۲۰,۰۰۰ تومان')">
-            <span class="badge">ویژه</span>
-            <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-            <div class="card-title">گیفت کارت ۲۵$</div>
-            <div class="card-price">۱,۷۲۰,۰۰۰ تومان</div>
-            <button class="select-btn">انتخاب</button>
-        </div>
-    </div>
-
-    <!-- باکس‌های راهنما -->
-    <div class="features">
-        <div class="feat-box">🔒 ضمانت اصالت کد</div>
-        <div class="feat-box">⚡ تحویل فوری در بات</div>
-    </div>
+    <!-- گرید کارت‌ها (لود سریع با JS سبک) -->
+    <div id="product-grid" class="grid"></div>
 
     <script>
         const tg = window.Telegram?.WebApp;
+        let activeCategory = 'apple';
         let selectedProduct = null;
+
+        const products = {
+            apple: [
+                { id: 'ap_5', name: 'گیفت کارت ۵ دلاری', region: 'ریجن آمریکا (USA)', price: '۳۵۰,۰۰۰ تومان', tag: 'پرفروش' },
+                { id: 'ap_10', name: 'گیفت کارت ۱۰ دلاری', region: 'ریجن آمریکا (USA)', price: '۶۹۰,۰۰۰ تومان', tag: 'محبوب' },
+                { id: 'ap_15', name: 'گیفت کارت ۱۵ دلاری', region: 'ریجن آمریکا (USA)', price: '۱,۰۴۰,۰۰۰ تومان' },
+                { id: 'ap_25', name: 'گیفت کارت ۲۵ دلاری', region: 'ریجن آمریکا (USA)', price: '۱,۷۲۰,۰۰۰ تومان', tag: 'ویژه' },
+                { id: 'ap_50', name: 'گیفت کارت ۵۰ دلاری', region: 'ریجن آمریکا (USA)', price: '۳,۴۰۰,۰۰۰ تومان' },
+                { id: 'ap_100', name: 'گیفت کارت ۱۰۰ دلاری', region: 'ریجن آمریکا (USA)', price: '۶,۷۵۰,۰۰۰ تومان' }
+            ],
+            psn: [
+                { id: 'ps_10', name: 'گیفت کارت ۱۰ دلاری', region: 'ریجن آمریکا (USA)', price: '۷۲۰,۰۰۰ تومان', tag: 'پرفروش' },
+                { id: 'ps_20', name: 'گیفت کارت ۲۰ دلاری', region: 'ریجن آمریکا (USA)', price: '۱,۴۲۰,۰۰۰ تومان' },
+                { id: 'ps_25', name: 'گیفت کارت ۲۵ دلاری', region: 'ریجن آمریکا (USA)', price: '۱,۷۷۰,۰۰۰ تومان' },
+                { id: 'ps_50', name: 'گیفت کارت ۵۰ دلاری', region: 'ریجن آمریکا (USA)', price: '۳,۵۰۰,۰۰۰ تومان', tag: 'اقتصادی' },
+                { id: 'ps_plus1', name: 'پلی‌استیشن پلاس ۱ ماهه', region: 'اسنشیال (USA)', price: '۹۸۰,۰۰۰ تومان' },
+                { id: 'ps_plus3', name: 'پلی‌استیشن پلاس ۳ ماهه', region: 'اسنشیال (USA)', price: '۲,۴۵۰,۰۰۰ تومان' }
+            ]
+        };
+
+        const appleSvg = `<svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12-14.44-6.19-9.35-10.98-20.2-14.37-32.55-3.39-12.35-5.08-23.77-5.08-34.25 0-14.15 3.57-26.06 10.71-35.73 7.14-9.67 16.38-14.65 27.72-14.94 4.58 0 9.83 1.25 15.75 3.76 5.92 2.51 9.77 3.82 11.54 3.94 1.48-.12 5.48-1.5 12-4.14 6.52-2.64 12.02-3.82 16.5-3.53 12.69.75 22.84 5.3 30.46 13.66-10.98 6.64-16.32 15.77-16.02 27.41.3 9.4 3.87 17.29 10.71 23.68 6.84 6.39 15.09 10.05 24.75 10.98-2.31 7.27-5.32 14.88-9.03 22.84zM119.22 31.74c0-7.3 2.66-14.18 7.99-20.64 5.33-6.46 11.83-10.45 19.5-11.97.77 8.04-1.78 15.24-7.64 21.61-5.86 6.37-12.48 10.04-19.85 11z"/></svg>`;
+        
+        const psnSvg = `<svg viewBox="0 0 512 512"><path d="M482.4 340.2c-15.5-5.7-32.3-3.2-46.5 4.9-20.4 11.6-40.8 23.2-61.2 34.8-5.3 3-10.7 4.1-15.8 2.6-6.1-1.8-10.2-6.5-10.2-13.8v-72.2c0-8.9 5.3-15.8 13.3-19.1 19.7-8.1 39.4-16.2 59.1-24.3 19.5-8 32.5-23.7 34.1-44.5 1.7-22-9.7-41.2-29.4-49.3-19.7-8.1-40.3-6.3-59.4 4.5-5.3 3-10.7 6.1-16 9.1v-60c0-10.3-6.8-17.7-16.9-18.4-10.3-.7-18.8 5.7-19.6 16.3-.3 4.1-.1 8.2-.1 12.3v179c-7.9 4.6-15.1 8.8-22.3 13-14.7 8.5-29.5 17.1-44.2 25.6-7.8 4.5-15.6 5.8-23.2 2.6-7.7-3.2-12.2-9.5-12-18 .3-11.4 8.7-19.4 19.4-23.8 20.3-8.3 40.6-16.6 60.9-24.9 3.5-1.4 6-3.8 6-7.8v-34.5c0-4.3-2.1-6.7-5.9-5.1-26.6 11-53.2 21.9-79.8 32.8-21.7 8.9-36.1 24.3-37.4 47.9-1.2 22.8 10.9 41.7 31.6 49.3 22.4 8.2 44.7 4.7 65.6-7.4 15.6-9 31.2-18.1 46.8-27.1 2.3-1.3 4.6-2.7 7.7-4.5v15.2c0 23.3 12.7 39.5 34.2 44.5 21.9 5.1 42.1-1.3 60.8-13.8 20.3-13.6 40.5-27.2 60.8-40.8 18.5-12.4 25.1-32.9 16.9-52.9z"/></svg>`;
+
+        function renderGrid() {
+            const container = document.getElementById('product-grid');
+            const items = products[activeCategory];
+            const currentSvg = activeCategory === 'apple' ? appleSvg : psnSvg;
+
+            container.innerHTML = items.map(item => `
+                <div class="card ${selectedProduct?.id === item.id ? 'active' : ''}" onclick="selectItem('${item.id}', '${item.name}', '${item.price}')">
+                    ${item.tag ? `<span class="badge">${item.tag}</span>` : ''}
+                    <div class="card-icon">${currentSvg}</div>
+                    <div class="title">${item.name}</div>
+                    <div class="region">${item.region}</div>
+                    <div class="price">${item.price}</div>
+                    <button class="btn-check">${selectedProduct?.id === item.id ? '✓ انتخاب شد' : 'انتخاب'}</button>
+                </div>
+            `).join('');
+        }
+
+        function showCategory(cat) {
+            if (activeCategory === cat) return;
+            activeCategory = cat;
+
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+
+            document.getElementById('tab-apple').className = `cat-btn ${cat === 'apple' ? 'active-apple' : ''}`;
+            document.getElementById('tab-psn').className = `cat-btn ${cat === 'psn' ? 'active-psn' : ''}`;
+
+            renderGrid();
+        }
+
+        function selectItem(id, name, price) {
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
+            selectedProduct = { id, name, price, category: activeCategory };
+            renderGrid();
+
+            if (tg) {
+                tg.MainButton.setText(`خرید ${name} (${price})`);
+                tg.MainButton.show();
+            }
+        }
 
         if (tg) {
             tg.ready();
             tg.expand();
-            // ست کردن دکمه اصلی تلگرام
-            tg.MainButton.setText("یک کارت را انتخاب کنید");
             tg.MainButton.onClick(() => {
                 if (selectedProduct) {
-                    tg.showAlert(`سفارش شما ثبت شد: گیفت کارت ${selectedProduct.name}`);
+                    tg.showAlert(`سفارش شما با موفقیت ثبت شد:\n${selectedProduct.name} - ${selectedProduct.price}`);
                     tg.sendData(JSON.stringify(selectedProduct));
                 }
             });
         }
 
-        function pickCard(element, name, price) {
-            // افکت لرزش گوشی (Haptic)
-            if (tg?.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
-            }
-
-            // حذف حالت انتخاب از بقیه
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.select-btn').forEach(b => b.innerText = 'انتخاب');
-
-            // فعال کردن کارت فعلی
-            element.classList.add('active');
-            element.querySelector('.select-btn').innerText = '✓ انتخاب شد';
-
-            selectedProduct = { name: name, price: price };
-
-            // فعال کردن دکمه بزرگ پایین تلگرام
-            if (tg) {
-                tg.MainButton.setText(`خرید گیفت کارت ${name} (${price})`);
-                tg.MainButton.show();
-            }
-        }
+        // رندر اولیه
+        renderGrid();
     </script>
 </body>
 </html>
