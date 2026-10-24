@@ -36,7 +36,6 @@
             min-height: 100vh;
         }
 
-        /* هدر بالای صفحه */
         .header {
             text-align: center;
             margin-bottom: 16px;
@@ -60,7 +59,6 @@
             color: var(--text-sub);
         }
 
-        /* دکمه‌های دسته‌بندی تب */
         .tabs {
             display: flex;
             gap: 10px;
@@ -97,7 +95,6 @@
             fill: currentColor;
         }
 
-        /* گرید کارت‌های محصول */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -183,14 +180,14 @@
             border-color: var(--accent);
         }
 
-        /* مدال بازشونده پرداخت کارت به کارت */
+        /* مدال پرداخت */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(6px);
             display: none;
             align-items: flex-end;
@@ -305,13 +302,11 @@
 </head>
 <body>
 
-    <!-- سربرگ -->
     <div class="header">
         <h1>فروشگاه گیفت کارت</h1>
         <p>تحویل سریع و تضمینی پین معتبر</p>
     </div>
 
-    <!-- دکمه‌های سوئیچ دسته‌بندی -->
     <div class="tabs">
         <button class="tab-btn active" id="tab-apple" onclick="switchCategory('apple')">
             <svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.85-11.89-14.44-5.35-8.38-9.61-17.65-12.79-27.81-3.18-10.16-4.77-19.98-4.77-29.47 0-13.62 3.63-24.97 10.9-34.05 7.27-9.08 16.5-13.72 27.69-13.91 4.58 0 9.87 1.25 15.87 3.75 6 2.5 9.94 3.79 11.83 3.87 1.48 0 5.48-1.28 12.02-3.84 6.54-2.56 12.1-3.68 16.69-3.35 12.56.84 22.39 5.86 29.48 15.06-11.01 6.68-16.39 16.03-16.14 28.05.25 9.69 3.96 17.77 11.13 24.23 7.17 6.46 15.7 10.05 25.59 10.77-2.18 6.54-4.82 13.07-7.92 19.59zM119.22 31.84c0-7.27 2.62-13.97 7.86-20.1 5.24-6.13 11.75-9.87 19.53-11.23.42 1.37.63 2.7.63 3.98 0 7.21-2.73 14.13-8.19 20.76-5.46 6.63-12.05 10.37-19.77 11.22-.06-1.55-.06-3.1-.06-4.63z"/></svg>
@@ -323,10 +318,8 @@
         </button>
     </div>
 
-    <!-- لیست کارت‌ها -->
     <div class="grid" id="productGrid"></div>
 
-    <!-- پنجره پاپ‌آپ پرداخت کارت به کارت -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal">
             <div class="modal-title">اطلاعات واریز کارت به کارت</div>
@@ -349,11 +342,11 @@
                     <span class="card-num" id="cardNumberText">6219-8619-0997-1334</span>
                     <button class="copy-btn" onclick="copyCard()">کپی کارت</button>
                 </div>
-                <small style="color: var(--text-sub); font-size: 11px; display: block; text-align: center;">پس از انتقال وجه، تصویر فیش را در تلگرام ارسال بفرمایید.</small>
+                <small style="color: var(--text-sub); font-size: 11px; display: block; text-align: center;">پس از واریز، روی دکمه زیر بزنید و تصویر فیش را در چت ربات ارسال کنید.</small>
             </div>
 
-            <!-- دکمه اتصال مستقیم به پشتیبان تلگرام -->
-            <button class="submit-btn" onclick="sendReceipt()">ارسال تصویر فیش در تلگرام</button>
+            <!-- دکمه اتصال مستقیم و استاندارد تلگرام بدون نیاز به یوزرنیم -->
+            <button class="submit-btn" onclick="submitOrder()">ارسال فیش و ثبت سفارش</button>
             <button class="close-btn" onclick="closeModal()">انصراف و بازگشت</button>
         </div>
     </div>
@@ -365,11 +358,8 @@
             tg.expand();
         }
 
-        // اطلاعات حساب و پشتیبانی
-        const SUPPORT_USERNAME = "support"; 
         const CARD_NUMBER = "6219-8619-0997-1334";
 
-        // لیست محصولات
         const products = {
             apple: [
                 { id: 'app_5', name: 'گیفت کارت ۵ دلاری', region: 'آمریکا USA', price: '۳۶۵,۰۰۰ تومان' },
@@ -388,7 +378,6 @@
         let activeCategory = 'apple';
         let selectedProduct = null;
 
-        // تابع هپتیک ویبره
         function triggerHaptic(type = 'heavy') {
             try {
                 if (tg && tg.HapticFeedback) {
@@ -397,7 +386,6 @@
             } catch (e) {}
         }
 
-        // تغییر تب
         function switchCategory(cat) {
             triggerHaptic('medium');
             activeCategory = cat;
@@ -406,13 +394,11 @@
             renderGrid();
         }
 
-        // انتخاب کارت
         function selectItem(id, name, price) {
             triggerHaptic('heavy');
             selectedProduct = { id, name, price, category: activeCategory };
             renderGrid();
 
-            // فعال‌سازی MainButton تلگرام
             if (tg && tg.MainButton) {
                 tg.MainButton.setText(`پرداخت و خرید (${price})`);
                 tg.MainButton.show();
@@ -420,7 +406,6 @@
             }
         }
 
-        // رندر محصولات
         function renderGrid() {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
@@ -445,7 +430,6 @@
             });
         }
 
-        // باز کردن پنجره پرداخت
         function openPaymentModal() {
             triggerHaptic('medium');
             const catName = selectedProduct.category === 'apple' ? 'اپل' : 'پلی‌استیشن';
@@ -455,13 +439,11 @@
             document.getElementById('paymentModal').classList.add('active');
         }
 
-        // بستن پنجره پرداخت
         function closeModal() {
             triggerHaptic('light');
             document.getElementById('paymentModal').classList.remove('active');
         }
 
-        // کپی شماره کارت
         function copyCard() {
             triggerHaptic('heavy');
             const rawDigits = CARD_NUMBER.replace(/[^0-9]/g, '');
@@ -473,21 +455,26 @@
             }
         }
 
-        // انتقال به تلگرام برای ارسال فیش
-        function sendReceipt() {
-            triggerHaptic('medium');
+        // عملکرد امن و استاندارد بدون نیاز به آیدی کاربر
+        function submitOrder() {
+            triggerHaptic('heavy');
             const catName = selectedProduct.category === 'apple' ? 'اپل' : 'پلی‌استیشن';
-            const msg = `سلام، من مبلغ ${selectedProduct.price} برای ${selectedProduct.name} (${catName}) واریز کردم. اینم تصویر فیش:`;
-            const url = `https://t.me/${SUPPORT_USERNAME}?text=${encodeURIComponent(msg)}`;
-            
-            if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink(url);
+            const orderPayload = JSON.stringify({
+                action: 'order_submitted',
+                item: selectedProduct.name,
+                category: catName,
+                price: selectedProduct.price
+            });
+
+            if (tg && tg.sendData) {
+                // ارسال امن اطلاعات به خودِ ربات و بستن پنجره
+                tg.sendData(orderPayload);
             } else {
-                window.open(url, '_blank');
+                alert('سفارش شما با موفقیت ثبت شد. لطفاً فیش واریزی را ارسال کنید.');
+                closeModal();
             }
         }
 
-        // لود اولیه
         renderGrid();
     </script>
 </body>
