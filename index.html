@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>فروشگاه گیفت کارت</title>
-    <!-- تلگرام اسکریپت رسمی -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- فونت استاندارد وزیرمتن -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
         :root {
@@ -18,6 +16,7 @@
             --text-main: #ffffff;
             --text-sub: #8e9bb0;
             --success: #00e676;
+            --danger: #ff5252;
         }
 
         * {
@@ -188,7 +187,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             display: none;
             align-items: flex-end;
             z-index: 1000;
@@ -200,10 +199,12 @@
 
         .modal {
             background: #141c2e;
-            border-top: 1px solid rgba(0, 210, 255, 0.35);
-            border-radius: 22px 22px 0 0;
+            border-top: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 24px 24px 0 0;
             width: 100%;
-            padding: 22px 18px 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 22px 18px 30px;
             animation: slideUp 0.25s ease-out;
         }
 
@@ -216,13 +217,13 @@
             font-size: 16px;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             color: #ffffff;
         }
 
         .payment-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.09);
             border-radius: 14px;
             padding: 14px;
             margin-bottom: 14px;
@@ -245,7 +246,7 @@
             border: 1px solid rgba(0, 210, 255, 0.4);
             padding: 12px 14px;
             border-radius: 10px;
-            margin: 14px 0 8px;
+            margin: 12px 0 6px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -260,7 +261,7 @@
         }
 
         .copy-btn {
-            background: rgba(0, 210, 255, 0.2);
+            background: rgba(0, 210, 255, 0.15);
             border: 1px solid var(--accent);
             color: #ffffff;
             padding: 6px 12px;
@@ -275,6 +276,87 @@
             color: #0b0f19;
         }
 
+        /* بخش آپلود فیش */
+        .upload-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(0, 210, 255, 0.4);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload-section input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
+        .upload-text {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .upload-hint {
+            font-size: 10px;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        .preview-img-box {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 140px;
+            border-radius: 10px;
+            border: 1px solid var(--accent);
+            object-fit: contain;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-bottom: 5px;
+        }
+
+        .custom-input {
+            width: 100%;
+            background: #0b0f19;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #ffffff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .custom-input:focus {
+            border-color: var(--accent);
+        }
+
         .submit-btn {
             width: 100%;
             background: linear-gradient(90deg, #0088cc, #00d2ff);
@@ -282,10 +364,16 @@
             border: none;
             border-radius: 12px;
             padding: 13px;
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 6px;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .submit-btn:active {
+            opacity: 0.9;
+            transform: scale(0.99);
         }
 
         .close-btn {
@@ -294,9 +382,49 @@
             color: var(--text-sub);
             border: none;
             padding: 10px;
-            font-size: 13px;
+            font-size: 12px;
             margin-top: 6px;
             cursor: pointer;
+        }
+
+        /* کارت پیام موفقیت و رهگیری */
+        .success-box {
+            display: none;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        .success-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .success-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .tracking-code {
+            display: inline-block;
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px dashed var(--success);
+            color: var(--success);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
         }
     </style>
 </head>
@@ -320,34 +448,67 @@
 
     <div class="grid" id="productGrid"></div>
 
+    <!-- مودال خرید و ارسال فیش -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal">
-            <div class="modal-title">اطلاعات واریز کارت به کارت</div>
+            
+            <!-- مرحله ۱: جزئیات پرداخت و ارسال فیش -->
+            <div id="paymentFormStep">
+                <div class="modal-title">پرداخت کارت به کارت و ارسال فیش</div>
 
-            <div class="payment-box">
-                <div class="pay-row">
-                    <span>محصول انتخابی:</span>
-                    <strong id="modalProdName">-</strong>
-                </div>
-                <div class="pay-row">
-                    <span>مبلغ قابل پرداخت:</span>
-                    <strong id="modalProdPrice" style="color: var(--accent);">-</strong>
-                </div>
-                <div class="pay-row">
-                    <span>صاحب حساب:</span>
-                    <strong>علی سبزکار کاشانی (بلوبانک)</strong>
+                <div class="payment-box">
+                    <div class="pay-row">
+                        <span>محصول انتخابی:</span>
+                        <strong id="modalProdName">-</strong>
+                    </div>
+                    <div class="pay-row">
+                        <span>مبلغ قابل پرداخت:</span>
+                        <strong id="modalProdPrice" style="color: var(--accent);">-</strong>
+                    </div>
+                    <div class="pay-row">
+                        <span>صاحب حساب:</span>
+                        <strong>علی سبزکار کاشانی (بلوبانک)</strong>
+                    </div>
+
+                    <div class="card-number-box">
+                        <span class="card-num" id="cardNumberText">6219-8619-0997-1334</span>
+                        <button class="copy-btn" onclick="copyCard()">کپی کارت</button>
+                    </div>
                 </div>
 
-                <div class="card-number-box">
-                    <span class="card-num" id="cardNumberText">6219-8619-0997-1334</span>
-                    <button class="copy-btn" onclick="copyCard()">کپی کارت</button>
+                <!-- باکس آپلود تصویر فیش -->
+                <div class="upload-section">
+                    <input type="file" id="receiptFileInput" accept="image/*" onchange="handleFileSelect(event)">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text" id="uploadStatusText">بارگذاری عکس فیش واریزی (کلیک کنید)</div>
+                    <div class="upload-hint">فرمت JPG یا PNG از گالری یا دوربین</div>
+                    <div class="preview-img-box" id="previewBox">
+                        <img id="receiptPreview" class="preview-img" alt="فیش واریزی">
+                    </div>
                 </div>
-                <small style="color: var(--text-sub); font-size: 11px; display: block; text-align: center;">پس از واریز، روی دکمه زیر بزنید و تصویر فیش را در چت ربات ارسال کنید.</small>
+
+                <!-- ورودی شماره ارجاع / یادداشت -->
+                <div class="input-group">
+                    <label for="referenceNumber">شماره پیگیری فیش یا ۴ رقم کارت (اختیاری):</label>
+                    <input type="text" id="referenceNumber" class="custom-input" placeholder="مثال: ۸۴۹۲۷۵ یا ۶۰۳۷...۱۲۳۴">
+                </div>
+
+                <!-- دکمه ثبت فیش درون مینی‌اپ -->
+                <button class="submit-btn" onclick="processReceiptSubmission()">ثبت و تایید فیش واریز</button>
+                <button class="close-btn" onclick="closeModal()">انصراف و بازگشت</button>
             </div>
 
-            <!-- دکمه اتصال مستقیم و استاندارد تلگرام بدون نیاز به یوزرنیم -->
-            <button class="submit-btn" onclick="submitOrder()">ارسال فیش و ثبت سفارش</button>
-            <button class="close-btn" onclick="closeModal()">انصراف و بازگشت</button>
+            <!-- مرحله ۲: کارت تایید نهایی سفارش درون خود اپلیکیشن -->
+            <div id="successStep" class="success-box">
+                <div class="success-icon">✓</div>
+                <div class="success-title">فیش واریزی دریافت شد!</div>
+                <div class="success-desc">
+                    سفارش شما در سیستم ثبت شد و در صف تایید اپراتور قرار گرفت. کد گیفت کارت شما به زودی همین‌جا و در ربات برای شما ارسال می‌شود.
+                </div>
+                <div class="tracking-code" id="orderTrackCode">کد پیگیری: GC-7391</div>
+                <button class="submit-btn" onclick="finishAndClose()">متوجه شدم (بستن صفحه)</button>
+            </div>
+
         </div>
     </div>
 
@@ -377,6 +538,7 @@
 
         let activeCategory = 'apple';
         let selectedProduct = null;
+        let uploadedReceiptData = null;
 
         function triggerHaptic(type = 'heavy') {
             try {
@@ -436,46 +598,10 @@
             document.getElementById('modalProdName').innerText = `${selectedProduct.name} (${catName})`;
             document.getElementById('modalProdPrice').innerText = selectedProduct.price;
             document.getElementById('cardNumberText').innerText = CARD_NUMBER;
-            document.getElementById('paymentModal').classList.add('active');
-        }
 
-        function closeModal() {
-            triggerHaptic('light');
-            document.getElementById('paymentModal').classList.remove('active');
-        }
-
-        function copyCard() {
-            triggerHaptic('heavy');
-            const rawDigits = CARD_NUMBER.replace(/[^0-9]/g, '');
-            navigator.clipboard.writeText(rawDigits);
-            if (tg && tg.showAlert) {
-                tg.showAlert('شماره کارت کپی شد: ' + rawDigits);
-            } else {
-                alert('شماره کارت کپی شد: ' + rawDigits);
-            }
-        }
-
-        // عملکرد امن و استاندارد بدون نیاز به آیدی کاربر
-        function submitOrder() {
-            triggerHaptic('heavy');
-            const catName = selectedProduct.category === 'apple' ? 'اپل' : 'پلی‌استیشن';
-            const orderPayload = JSON.stringify({
-                action: 'order_submitted',
-                item: selectedProduct.name,
-                category: catName,
-                price: selectedProduct.price
-            });
-
-            if (tg && tg.sendData) {
-                // ارسال امن اطلاعات به خودِ ربات و بستن پنجره
-                tg.sendData(orderPayload);
-            } else {
-                alert('سفارش شما با موفقیت ثبت شد. لطفاً فیش واریزی را ارسال کنید.');
-                closeModal();
-            }
-        }
-
-        renderGrid();
-    </script>
-</body>
-</html>
+            // ریست فرم
+            document.getElementById('paymentFormStep').style.display = 'block';
+            document.getElementById('successStep').style.display = 'none';
+            document.getElementById('receiptFileInput').value = '';
+            document.getElementById('previewBox').style.display = 'none';
+            document.getElementById('uploadStatusText').innerText = 'بارگذاری عکس فیش واریزی (کلیک 
